@@ -1,0 +1,2 @@
+php generateScript.php
+PAUSE
