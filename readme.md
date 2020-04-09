@@ -1,4 +1,4 @@
-#Codeigniter Migration Generator
+# Codeigniter Migration Generator
 
 Create migration files for Codeigniter 3.
 
