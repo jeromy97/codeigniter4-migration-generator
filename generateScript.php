@@ -36,5 +36,24 @@ try {
 	file_put_contents($fileName, $content);
 	echo $fileName . " was succesfully created!" . PHP_EOL;
 } catch (Exception $e) {
-	echo "Migration could not be created: " . $e->getMessage() . PHP_EOL;
+	exit ("Migration could not be created: " . $e->getMessage() . PHP_EOL);
+}
+
+if ($codeigniterDir != '') {
+	$configFile = $codeigniterDir . "\\application\\config\\migration.php";
+	
+	if ( file_exists($configFile) ) {
+		$config = file_get_contents($configFile);
+		
+		$config = str_replace('$config[\'migration_enabled\'] = FALSE;', '$config[\'migration_enabled\'] = TRUE;', $config);
+		
+		$search = '$config[\'migration_version\'] = ';
+		$startPos = strpos($config, $search) + strlen($search);
+		$endPos = strpos($config, ';', $startPos);
+		
+		$config = substr_replace($config, $migrationNumber, $startPos, $endPos - $startPos);
+		
+		file_put_contents($configFile, $config);
+		
+	}
 }
