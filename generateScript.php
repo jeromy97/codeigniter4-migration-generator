@@ -40,20 +40,31 @@ try {
 }
 
 if ($codeigniterDir != '') {
-	$configFile = $codeigniterDir . "\\application\\config\\migration.php";
 	
-	if ( file_exists($configFile) ) {
-		$config = file_get_contents($configFile);
-		
-		$config = str_replace('$config[\'migration_enabled\'] = FALSE;', '$config[\'migration_enabled\'] = TRUE;', $config);
-		
-		$search = '$config[\'migration_version\'] = ';
-		$startPos = strpos($config, $search) + strlen($search);
-		$endPos = strpos($config, ';', $startPos);
-		
-		$config = substr_replace($config, $migrationNumber, $startPos, $endPos - $startPos);
-		
-		file_put_contents($configFile, $config);
-		
+	do {
+		echo "Would you like the version_number in migration.php to be updated? (y/n)" . PHP_EOL;
+		$updateVersionNumber = strtolower(readline());
+	} while (!in_array($updateVersionNumber, array('y', 'n')));
+	
+	if ($updateVersionNumber == 'y') {
+		$configFile = $codeigniterDir . "\\application\\config\\migration.php";
+		if ( file_exists($configFile) ) {
+			$config = file_get_contents($configFile);
+			
+			$config = str_replace('$config[\'migration_enabled\'] = FALSE;', '$config[\'migration_enabled\'] = TRUE;', $config);
+			
+			$search = '$config[\'migration_version\'] = ';
+			$startPos = strpos($config, $search) + strlen($search);
+			$endPos = strpos($config, ';', $startPos);
+			
+			$config = substr_replace($config, $migrationNumber, $startPos, $endPos - $startPos);
+			
+			file_put_contents($configFile, $config);
+			
+			echo "migration.php updated succesfully!" . PHP_EOL;
+		}
+		else{
+			exit ($configFile . ' not found...');
+		}
 	}
 }
