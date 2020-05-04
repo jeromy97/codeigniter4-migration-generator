@@ -1,8 +1,6 @@
-<?php
+<?php namespace App\Database\Migrations;
 
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Migration_{MIGRATION_NAME} extends CI_Migration {
+class {MIGRATION_NAME} extends \CodeIgniter\Database\Migration {
 
 	public function up()
 	{
