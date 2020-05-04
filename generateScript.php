@@ -5,11 +5,20 @@ $templateFile = "template.txt";
 file_exists($templateFile)
 	or exit ($templateFile . " not found...");
 
-echo "Enter the desired migration name in seperate words. For example: \"My beautifull Migration\"." . PHP_EOL;
-$migrationName = readline();
+do {
+	echo "Enter the desired migration name in seperate words. For example: \"My beautifull Migration\"." . PHP_EOL;
+	$migrationName = readline();
 
-echo "Enter the path of the Codeigniter 4 root folder or leave blank to generate the migration as a separate file..." . PHP_EOL;
-$codeigniterDir = readline();
+	// Remove non-aplhanumeric characters.
+	$migrationName = preg_replace("/[^A-Za-z0-9 ]/", '', $migrationName);
+	// Remove double spaces.
+	$migrationName = trim(preg_replace('!\s+!', ' ', $migrationName));
+} while ($migrationName === '');
+
+do {
+	echo "Enter the path of the Codeigniter 4 root folder or leave blank to generate the migration as a separate file..." . PHP_EOL;
+	$codeigniterDir = readline();
+} while ( !(file_exists($codeigniterDir) || $codeigniterDir === '') );
 
 if ($codeigniterDir == '') {
 	$path = "migrations\\";
